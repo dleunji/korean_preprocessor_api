@@ -1,0 +1,95 @@
+openapi: 3.0.2
+info:
+  title: Korean Preprocessor
+  description: Please enter text to preprocess.`num_samples1` applies to 'emoticon_normalize' and `num_samples2` applies to 'repeat_normalize'
+  version: 1.0.0
+paths:
+  /preprocess:
+    post:
+      summary: Get Response
+      operationId: get_response_preprocess_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Input'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    Input:
+      title: Input
+      required:
+        - text
+      type: object
+      properties:
+        text:
+          title: Text
+          type: string
+        emoticon_normalize:
+          title: Emoticon Normalize
+          type: boolean
+          default: false
+        repeat_normalize:
+          title: Repeat Normalize
+          type: boolean
+          default: false
+        only_hangle:
+          title: Only Hangle
+          type: boolean
+          default: false
+        only_hangle_number:
+          title: Only Hangle Number
+          type: boolean
+          default: false
+        only_text:
+          title: Only Text
+          type: boolean
+          default: false
+        num_repeats1:
+          title: Num Repeats1
+          type: integer
+          default: 2
+        num_repeats2:
+          title: Num Repeats2
+          type: integer
+          default: 2
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
